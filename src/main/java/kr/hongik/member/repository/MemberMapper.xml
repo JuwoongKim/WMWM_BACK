@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.hongik.member.repository.MemberMapper">
+
+	<select id="login" parameterType="member" resultType="member">
+		SELECT *
+		FROM MEMBER
+		WHERE MEMBER.LOGIN_ID = #{loginId}
+		AND MEMBER.PWD = #{pwd}
+	</select>
+		
+	<select id="getUserNo" parameterType="member" resultType="member">
+		SELECT *
+		FROM MEMBER
+		WHERE MEMBER.LOGIN_ID = #{loginId}
+	</select>
+	
+	<select id="findAll" resultType="member">
+		SELECT *
+		FROM MEMBER
+	</select>
+</mapper>

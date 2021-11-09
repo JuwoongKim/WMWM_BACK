@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.hongik.friends.repository.FriendsMapper">
+
+	<!-- 지인 정보 - 목록 조회 -->
+	<select id="selectFriendsInfoList" parameterType="string" resultType="card">
+		SELECT TX.USER_NO, TX.GENDER, TX.AGE, TX.BIRTHDATE, TX.MBTI, TX.RESIDENCE
+			, TX.WORK_TYPE, TX.WORK_DETAIL, TX.ELEMENTARY, TX.MIDDLE, TX.HIGH, TX.UNIV
+			, TX.BLOOD_TYPE, TX.PROFILE_ID, TX.MOTTO,	TM.USER_NAME, 	TM.TELNO1, 	TM.EMAIL
+		FROM MEMBER TM 
+		INNER JOIN(
+					SELECT TC.USER_NO, TC.GENDER, TC.AGE, TC.BIRTHDATE, TC.MBTI, TC.RESIDENCE
+					, TC.WORK_TYPE, TC.WORK_DETAIL, TC.ELEMENTARY, TC.MIDDLE, TC.HIGH, TC.UNIV
+					, TC.BLOOD_TYPE, TC.PROFILE_ID, TC.MOTTO
+					FROM CARD TC 
+					INNER JOIN(
+								SELECT SUB_NO
+								FROM FRIENDS
+								WHERE 1=1
+								<if test="userNo != null"> 
+									AND USER_NO = #{userNo} 
+								</if>
+								UNION
+								SELECT USER_NO
+								FROM FRIENDS
+								WHERE 1=1
+								<if test="userNo != null">
+									AND SUB_NO = #{userNo}
+								</if>
+					)TF ON TF.SUB_NO = TC.USER_NO
+		)TX ON TX.USER_NO = TM.USER_NO
+		WHERE 1=1
+	</select>
+	
+	<!-- 지인 정보 - 최초 등록 여부 조회 -->
+	<select id="whetherFirstShare" parameterType="friends" resultType="int">
+		SELECT EXISTS(
+					SELECT *
+        			FROM FRIENDS
+        			WHERE 1=1
+        			<if test="userNo != null"> 
+        				AND USER_NO = #{userNo} 
+        			</if>
+        			<if test="subNo != null">
+        				AND SUB_NO = #{subNo} 
+        			</if>
+        			LIMIT 1) AS RESULT;
+	</select>
+	
+	<!-- 지인 정보 - 최초 등록 -->
+	<insert id="insertFriends" parameterType="friends">
+		INSERT INTO FRIENDS
+			(
+				USER_NO
+			,	SUB_NO
+			,	REG_DT
+			)
+		VALUES
+			(
+				#{userNo}
+			,	#{subNo}
+			,	DATE_FORMAT(SYSDATE(),'%Y%m%d%H%i%s')
+			)
+	</insert>
+	
+	<!-- 지인 정보 - 재회 등록 -->
+	<insert id="insertHistory" parameterType="friends">
+		INSERT INTO HISTORY
+			(
+				SEQ
+			,	REG_DT
+			)
+		VALUES
+			(
+				#{seq}
+			,	DATE_FORMAT(SYSDATE(),'%Y%m%d%H%i%s')
+			)
+	</insert>
+	
+	<!-- 지인 정보 - 지인 고유 번호 조회 -->
+	<select id="findFriendsSeq" parameterType="friends" resultType="int">
+		SELECT SEQ
+		FROM FRIENDS
+		WHERE 1=1
+        <if test="userNo != null"> 
+        	AND USER_NO = #{userNo} 
+        </if>
+        <if test="subNo != null">
+        	AND SUB_NO = #{subNo} 
+        </if>
+	</select>
+</mapper>

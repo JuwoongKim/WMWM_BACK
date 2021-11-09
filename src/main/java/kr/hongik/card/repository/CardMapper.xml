@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.hongik.card.repository.CardMapper">
+
+	<!-- 내 정보 - 상세 조회 -->
+	<select id="selectMyInfo" parameterType="string" resultType="card">
+		SELECT *
+		FROM CARD
+		WHERE USER_NO = #{userNo}
+	</select>
+</mapper>

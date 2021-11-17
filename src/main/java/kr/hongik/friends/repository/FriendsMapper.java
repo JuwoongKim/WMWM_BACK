@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.hongik.card.model.Card;
 import kr.hongik.friends.model.Friends;
+import kr.hongik.history.model.History;
 
 @Mapper
 public interface FriendsMapper {
@@ -25,5 +26,7 @@ public interface FriendsMapper {
 	
 	/* 지인 정보 - 재회 등록 */
 	public int insertHistory(Friends friends);
+	
+	public int insertHistory2(History history);
 
 }

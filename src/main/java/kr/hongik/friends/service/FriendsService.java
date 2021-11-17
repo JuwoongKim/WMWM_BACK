@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.hongik.card.model.Card;
 import kr.hongik.friends.model.Friends;
 import kr.hongik.friends.repository.FriendsMapper;
+import kr.hongik.history.model.History;
 import kr.hongik.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,6 +44,11 @@ public class FriendsService {
 		return Optional.ofNullable(friendsMapper.insertHistory(friends)).orElse(1);
 
 	}
+	
+	public int insertHistory2(History history){
+		return Optional.ofNullable(friendsMapper.insertHistory2(history)).orElse(1);
+	}
+	
 	
 	/* 지인 정보 - 지인 고유 번호 조회 */
 	public int findFriendsSeq(Friends friends) {

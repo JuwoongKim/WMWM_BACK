@@ -22,5 +22,10 @@ public class CardService {
 	public List<Card> selectMyInfo(String userNo) {
 		return Optional.ofNullable(cardMapper.selectMyInfo(userNo)).orElseGet(ArrayList::new);
 	}
+	
+	/* 내 정보 - 업데이트 */
+	public int updateMyInfo(Card card) {
+		return Optional.ofNullable(cardMapper.updateMyInfo(card)).orElse(1);
+	}
 
 }

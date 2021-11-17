@@ -13,5 +13,8 @@ public interface CardMapper {
 	
 	/* 내 정보 - 상세 조회 */
 	public List<Card> selectMyInfo(@Param("userNo") String userNo);
+	
+	/* 내 정보 - 업데이트 */
+	int updateMyInfo(Card card);
 
 }

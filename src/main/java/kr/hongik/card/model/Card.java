@@ -32,7 +32,7 @@ public class Card {
     private String high;		//고등학교
     private String univ;		//대학교
 	private String bloodType;	//혈액형
-	private String profileId;	//혈액형
+	private String fileId;		//프로필사진 ID
 	private String motto;		//좌우명
 	
 	

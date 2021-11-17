@@ -7,8 +7,31 @@
 
 	<!-- 내 정보 - 상세 조회 -->
 	<select id="selectMyInfo" parameterType="string" resultType="card">
-		SELECT *
-		FROM CARD
-		WHERE USER_NO = #{userNo}
+		SELECT TC.USER_NO, TC.GENDER, TC.AGE, TC.BIRTHDATE, TC.MBTI, TC.RESIDENCE
+			, TC.WORK_TYPE, TC.WORK_DETAIL, TC.ELEMENTARY, TC.MIDDLE, TC.HIGH, TC.UNIV
+			, TC.BLOOD_TYPE, TC.FILE_ID, TC.MOTTO,	TX.USER_NAME, 	TX.TELNO1, 	TX.EMAIL
+
+		FROM CARD TC
+		INNER JOIN(
+					SELECT *
+					FROM MEMBER
+					WHERE USER_NO = #{userNo} 
+		)TX ON TX.USER_NO = TC.USER_NO
+		WHERE 1=1
 	</select>
+	
+	
+		<!-- 주문관리 - 접수 / 임시저장 (업데이트) -->
+	<update id="updateMyInfo" parameterType="card">
+		UPDATE CARD
+		SET
+			MBTI = #{mbti},
+			RESIDENCE = #{residence},
+			WORK_TYPE = #{workType},
+			UNIV = #{univ},
+			FILE_ID = #{fileId},
+			MOD_DT = DATE_FORMAT(SYSDATE(),'%Y%m%d%H%i%s'),
+			MOD_ID = #{modId}
+		WHERE USER_NO = #{userNo}
+	</update>
 </mapper>

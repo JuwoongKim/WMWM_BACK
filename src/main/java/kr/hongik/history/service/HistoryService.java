@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.hongik.friends.model.Friends;
+import kr.hongik.history.model.Hcount;
 import kr.hongik.history.model.History;
+import kr.hongik.history.model.Tcount;
+import kr.hongik.history.model.Wcount;
 import kr.hongik.history.repository.HistoryMapper;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +21,26 @@ public class HistoryService {
 
 	@Autowired
 	private HistoryMapper historyMapper;
+	
+    /* 지인 정보 - 목록 조회 */
+    public List<History> selectHistoryList(String userNo) {
+        return Optional.ofNullable(historyMapper.selectHistoryList(userNo)).orElseGet(ArrayList::new);
+    }
+
+    public List<Tcount> selectTypeCount(String userNo){
+        return Optional.ofNullable(historyMapper.selectTypeCount(userNo)).orElseGet(ArrayList::new);
+
+    }
+
+    public List<Hcount> selectHourCount(String userNo){
+        return Optional.ofNullable(historyMapper.selectHourCount(userNo)).orElseGet(ArrayList::new);
+
+    }
+
+    public List<Wcount> selectWeekCount(String userNo){
+        return Optional.ofNullable(historyMapper.selectWeekCount(userNo)).orElseGet(ArrayList::new);
+
+    }
 
 	public int getTotal(Friends friends) {
 		return Optional.ofNullable(historyMapper.getTotal(friends)).orElse(1);

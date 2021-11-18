@@ -28,4 +28,9 @@ public class CardService {
 		return Optional.ofNullable(cardMapper.updateMyInfo(card)).orElse(1);
 	}
 
+	//주웅이 추가한 것
+	public List<Card> selectMbti(String userNo) {
+		return Optional.ofNullable(cardMapper.selectMbti(userNo)).orElseGet(ArrayList::new);
+	}
+
 }

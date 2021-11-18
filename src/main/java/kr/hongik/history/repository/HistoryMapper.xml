@@ -5,6 +5,60 @@
 
 <mapper namespace="kr.hongik.history.repository.HistoryMapper">
 
+
+	<!-- 히스토리 정보  - 목록 조회 -->
+	<select id="selectHistoryList" parameterType="string" resultType="History">
+		SELECT *
+		FROM HISTORY
+		WHERE SEQ in(
+		    		SELECT  SEQ
+		    		FROM	FRIENDS
+		    		WHERE	USER_NO = #{userNo} OR SUB_NO = #{userNo}
+				)
+	</select>
+
+	<!-- 히스토리 정보  - 목록 조회 -->
+	<select id="selectTypeCount" parameterType="string" resultType="tcount">
+		SELECT TYPE, count(TYPE) as COUNT
+		FROM HISTORY
+		WHERE SEQ in(
+			SELECT  SEQ
+			FROM	FRIENDS
+			WHERE	USER_NO = #{userNo} OR SUB_NO = #{userNo}
+		)
+		GROUP BY TYPE
+	</select>
+
+
+	<select id="selectHourCount" parameterType="string" resultType="hcount">
+		select count( CASE WHEN (MINUTE(REG_DT) between 0 and 4) then 1 end) as ONE,
+			   count( CASE WHEN (MINUTE(REG_DT) between 5 and 8) then 1 end) as TWO,
+			   count( CASE WHEN (MINUTE(REG_DT) between 9 and 12) then 1 end) as THREE,
+			   count( CASE WHEN (MINUTE(REG_DT) between 13 and 16) then 1 end) as FOUR,
+			   count( CASE WHEN (MINUTE(REG_DT) between 17 and 20) then 1 end) as FIVE,
+			   count( CASE WHEN (MINUTE(REG_DT) between 21 and 23) then 1 end) as SIX
+		from history
+		where SEQ in (select SEQ
+					  from friends
+					  where USER_NO =#{userNo} or SUB_NO =#{userNo})
+
+	</select>
+
+
+
+	<select id="selectWeekCount" parameterType="string" resultType="wcount">
+		select count( CASE WHEN (REG_DT between  DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()) then 1 end) as ONE,
+			   count( CASE WHEN (REG_DT between DATE_ADD(NOW(),INTERVAL -2 WEEK ) AND DATE_ADD(NOW(),INTERVAL -1 WEEK )) then 1 end) as TWO,
+			   count( CASE WHEN (REG_DT between DATE_ADD(NOW(),INTERVAL -3 WEEK ) AND DATE_ADD(NOW(),INTERVAL -2 WEEK )) then 1 end) as THREE,
+			   count( CASE WHEN (REG_DT between DATE_ADD(NOW(),INTERVAL -4 WEEK ) AND DATE_ADD(NOW(),INTERVAL -3 WEEK )) then 1 end) as FOUR,
+			   count( CASE WHEN (REG_DT between DATE_ADD(NOW(),INTERVAL -5 WEEK ) AND DATE_ADD(NOW(),INTERVAL -4 WEEK )) then 1 end) as FIVE
+		from history
+		where SEQ in (select SEQ
+					  from friends
+					  where USER_NO =#{userNo} or SUB_NO =#{userNo})
+
+	</select>
+
 	<select id="getTotal" parameterType="friends" resultType="int">
 		SELECT COUNT(TH.SEQ) AS TOTAL
 		FROM HISTORY TH

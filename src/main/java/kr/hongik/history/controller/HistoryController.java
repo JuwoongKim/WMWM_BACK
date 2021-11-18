@@ -7,7 +7,10 @@ import com.google.gson.Gson;
 
 import kr.hongik.friends.model.Friends;
 import kr.hongik.friends.service.FriendsService;
+import kr.hongik.history.model.Hcount;
 import kr.hongik.history.model.History;
+import kr.hongik.history.model.Tcount;
+import kr.hongik.history.model.Wcount;
 import kr.hongik.history.service.HistoryService;
 import kr.hongik.member.model.Member;
 import kr.hongik.member.service.MemberService;
@@ -39,6 +42,7 @@ public class HistoryController {
     @Autowired
     HistoryService historyService;
 
+    
     @PostMapping("/")
     public String insertHistory (@RequestBody String objJson) {
         Gson gson = new Gson();
@@ -95,6 +99,120 @@ public class HistoryController {
         return jsonob.toString();
 
     }
+    
+    
+    @GetMapping("/test")
+    public String firstTest(@RequestParam String para){
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println(para);
+
+        JSONObject jsonob= new JSONObject();
+        jsonob.put("id", para);
+        return jsonob.toString();
+    }
+
+
+
+    @GetMapping("/wcount")
+    public String selectWeekCount (@RequestParam String userNo) throws JsonProcessingException{
+        System.out.println("========++++++++++++++++==========================================");
+        JSONObject jsonob= new JSONObject();
+        List<Wcount> list =null;
+
+        if (!"".equals(userNo) && null != userNo)
+        {
+            list = historyService.selectWeekCount(userNo);
+            for (Wcount i : list)
+            {
+                System.out.println("====");
+                System.out.println(i.toString());
+                System.out.println("====");
+            }
+
+            jsonob.put("wcountList", list);
+        }
+
+        return jsonob.toString();
+    }
+
+
+
+    @GetMapping("/hcount")
+    public String selectHourCount (@RequestParam String userNo) throws JsonProcessingException{
+        System.out.println("========++++++++++++++++==========================================");
+        JSONObject jsonob= new JSONObject();
+        List<Hcount> list =null;
+
+        if (!"".equals(userNo) && null != userNo)
+        {
+            list = historyService.selectHourCount(userNo);
+            for (Hcount i : list)
+            {
+                System.out.println("====");
+                System.out.println(i.toString());
+                System.out.println("====");
+            }
+
+            jsonob.put("hcountList", list);
+        }
+
+        return jsonob.toString();
+    }
+
+
+
+    @GetMapping("/tcount")
+    public String selectTypeCount (@RequestParam String userNo) throws JsonProcessingException{
+
+        System.out.println("========++++++++++++++++==========================================");
+        JSONObject jsonob= new JSONObject();
+        List<Tcount> list =null;
+
+        if (!"".equals(userNo) && null != userNo){
+            list =  historyService.selectTypeCount(userNo);
+
+            for (Tcount i : list)
+            {
+                System.out.println("====");
+                System.out.println(i.toString());
+                System.out.println("====");
+            }
+
+            jsonob.put("tcountList", list);
+
+        }
+
+        return jsonob.toString();
+    }
+
+
+    @GetMapping("/location")
+    public String selectLocation (@RequestParam String userNo) throws JsonProcessingException {
+
+
+        JSONObject jsonob= new JSONObject();
+        List<History> list = null;
+        System.out.println("DFDSFDSFDF");
+
+        if (!"".equals(userNo) && null != userNo) {
+            //list = friendsService.selectFriendsInfoList(userNo);
+            list =  historyService.selectHistoryList(userNo);
+
+            for (History i : list)
+            {
+     //           System.out.println("====");
+     //           System.out.println(i.toString());
+     //           System.out.println("====");
+            }
+            jsonob.put("historyList", list);
+        }
+
+        return jsonob.toString();
+    }
+
+
+    //////////////////////////////////
+    // 주웅이 추가한것
     
 	/* 회원 - 상세 조회 */
 	@GetMapping("/detail") 

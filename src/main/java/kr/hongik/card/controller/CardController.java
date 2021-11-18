@@ -178,6 +178,25 @@ public class CardController {
 
 
 	}
+	
+	// 주웅이 추가한 것
+	//MBTI 똒깥은것 조회
+	@GetMapping("/mbti")
+	public String selectMbti (@RequestParam String userNo) throws JsonProcessingException {
+		JSONObject jsonob= new JSONObject();
+		List<Card> cardList = null;
+
+		if (!"".equals(userNo) && null != userNo) {
+			cardList = cardService.selectMbti(userNo);
+			jsonob.put("cardInfo", cardList);
+		}
+
+		System.out.println("============");
+		System.out.println(cardList.size());
+		System.out.println("============");
+
+		return jsonob.toString();
+	}
 
 	
 

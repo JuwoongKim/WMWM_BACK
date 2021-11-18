@@ -97,4 +97,10 @@
         	AND SUB_NO = #{subNo} 
         </if>
 	</select>
+	
+		<select id="findFriendsMbit" parameterType="string" resultType="card">
+
+
+
+	</select>
 </mapper>

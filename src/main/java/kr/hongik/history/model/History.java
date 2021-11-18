@@ -3,6 +3,9 @@ package kr.hongik.history.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 @Data
@@ -27,12 +30,16 @@ public class History {
     @SerializedName("longitude")
     public String longitude;
     
+    @SerializedName("regDt")
+    public String regDt;
+
+    @SerializedName("historyList")
+    public List<History> historyList;
+    
     @SerializedName("day")
     public String day;
 
     @SerializedName("beforeDay")
     public String beforeDay;
-    
-	private String regDt;		//작성자
 
 }

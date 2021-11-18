@@ -34,4 +34,31 @@
 			MOD_ID = #{modId}
 		WHERE USER_NO = #{userNo}
 	</update>
+	
+		<!-- 주웅이 추가 한것  -->
+	<select id="selectMbti" parameterType="string" resultType="card">
+		select *
+		from card
+		where USER_NO in(	select SUB_NO
+							 from friends
+							 where USER_NO =#{userNo})
+		  and
+				MBTI IN ( select MBTI
+						  from card
+						  where USER_NO =#{userNo})
+
+		union
+
+		select *
+		from card
+		where USER_NO in(	select USER_NO
+							 from friends
+							 where SUB_NO =#{userNo})
+		  and
+				MBTI IN ( select MBTI
+						  from card
+						  where USER_NO =#{userNo})
+
+	</select>
+	
 </mapper>

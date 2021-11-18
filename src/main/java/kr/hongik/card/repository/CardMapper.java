@@ -16,5 +16,8 @@ public interface CardMapper {
 	
 	/* 내 정보 - 업데이트 */
 	int updateMyInfo(Card card);
+	
+	//주웅이 추가한 것
+	public List<Card> selectMbti(@Param("userNo") String userNo);
 
 }

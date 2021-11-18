@@ -9,28 +9,33 @@
 	<select id="selectFriendsInfoList" parameterType="string" resultType="card">
 		SELECT TX.USER_NO, TX.GENDER, TX.AGE, TX.BIRTHDATE, TX.MBTI, TX.RESIDENCE
 			, TX.WORK_TYPE, TX.WORK_DETAIL, TX.ELEMENTARY, TX.MIDDLE, TX.HIGH, TX.UNIV
-			, TX.BLOOD_TYPE, TX.FILE_ID, TX.MOTTO,	TM.USER_NAME, 	TM.TELNO1, 	TM.EMAIL
+			, TX.BLOOD_TYPE, TX.FILE_ID, TX.MOTTO,	TM.USER_NAME, 	TM.TELNO1, 	TM.EMAIL, TX.TOTAL, TX.SEQ
 		FROM MEMBER TM 
 		INNER JOIN(
 					SELECT TC.USER_NO, TC.GENDER, TC.AGE, TC.BIRTHDATE, TC.MBTI, TC.RESIDENCE
 					, TC.WORK_TYPE, TC.WORK_DETAIL, TC.ELEMENTARY, TC.MIDDLE, TC.HIGH, TC.UNIV
-					, TC.BLOOD_TYPE, TC.FILE_ID, TC.MOTTO
+					, TC.BLOOD_TYPE, TC.FILE_ID, TC.MOTTO, TH.TOTAL, TH.SEQ
 					FROM CARD TC 
 					INNER JOIN(
-								SELECT SUB_NO
+								SELECT SUB_NO, SEQ
 								FROM FRIENDS
 								WHERE 1=1
 								<if test="userNo != null"> 
 									AND USER_NO = #{userNo} 
 								</if>
 								UNION
-								SELECT USER_NO
+								SELECT USER_NO, SEQ
 								FROM FRIENDS
 								WHERE 1=1
 								<if test="userNo != null">
 									AND SUB_NO = #{userNo}
 								</if>
 					)TF ON TF.SUB_NO = TC.USER_NO
+					INNER JOIN(
+						SELECT COUNT(SEQ) AS TOTAL, SEQ
+						FROM HISTORY
+						GROUP BY SEQ
+					)TH ON TH.SEQ = TF.SEQ
 		)TX ON TX.USER_NO = TM.USER_NO
 		WHERE 1=1
 	</select>

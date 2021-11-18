@@ -40,5 +40,8 @@ public class Card {
 	private String regId;		//작성일시
 	private String modDt;		//수정자
 	private String modId;		//수정일시
+	
+	private String total;		//
+	private String seq;		//
 
 }

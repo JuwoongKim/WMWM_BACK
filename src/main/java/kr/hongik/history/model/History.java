@@ -26,5 +26,13 @@ public class History {
 
     @SerializedName("longitude")
     public String longitude;
+    
+    @SerializedName("day")
+    public String day;
+
+    @SerializedName("beforeDay")
+    public String beforeDay;
+    
+	private String regDt;		//작성자
 
 }

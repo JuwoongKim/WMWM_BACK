@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.hongik.history.repository.HistoryMapper">
+
+	<select id="getTotal" parameterType="friends" resultType="int">
+		SELECT COUNT(TH.SEQ) AS TOTAL
+		FROM HISTORY TH
+		INNER JOIN(
+			SELECT SEQ
+			FROM FRIENDS
+			WHERE USER_NO = #{userNo}
+				AND SUB_NO=#{subNo}
+		)TF ON TF.SEQ = TH.SEQ
+		WHERE 1=1
+	</select>
+	
+	<select id="getHistoryInfoList" parameterType="string" resultType="history">
+		SELECT LATITUDE, LONGITUDE, DATE_FORMAT(REG_DT, '%Y-%m-%d %H:%m') AS REG_DT
+		FROM HISTORY
+		WHERE 1=1
+		<if test="seq != null">
+			AND SEQ = #{seq}
+		</if>
+		ORDER BY REG_DT DESC
+	</select>
+	
+	
+</mapper>

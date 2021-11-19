@@ -5,15 +5,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.google.gson.Gson;
 
+import kr.hongik.card.model.Card;
 import kr.hongik.friends.model.Friends;
 import kr.hongik.friends.service.FriendsService;
 import kr.hongik.history.model.Hcount;
 import kr.hongik.history.model.History;
+import kr.hongik.history.model.Rank;
 import kr.hongik.history.model.Tcount;
 import kr.hongik.history.model.Wcount;
 import kr.hongik.history.service.HistoryService;
 import kr.hongik.member.model.Member;
 import kr.hongik.member.service.MemberService;
+
+import org.apache.ibatis.annotations.Case;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -273,6 +277,51 @@ public class HistoryController {
         return jsonob.toString();
 
     }
+    
+    
+    
+	@GetMapping("/rank") 
+	public String getPeriodRankList (@RequestParam(value = "userNo") String userNo, @RequestParam(value = "period") String period) throws JsonProcessingException {	
+		JSONObject jsonob= new JSONObject();
+		List<Rank> periodRankList = null;
+		String stDate = "0";
+		
+		SimpleDateFormat sdformat = new SimpleDateFormat("yyyyMMdd"); 
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		
+		
+		
+		switch (period) {
+        case "0":  stDate = "0";
+                 break;
+        case "1":  calendar.add(Calendar.MONTH, -1);
+        stDate = sdformat.format(calendar.getTime()) + "00000000";
+                 break;
+        case "3":  calendar.add(Calendar.MONTH, -3);
+        stDate = sdformat.format(calendar.getTime()) + "00000000";
+                 break;
+        case "6":  calendar.add(Calendar.MONTH, -6);
+        stDate = sdformat.format(calendar.getTime()) + "00000000";
+                 break;
+        case "12":  calendar.add(Calendar.MONTH, -12);
+        stDate = sdformat.format(calendar.getTime()) + "00000000";
+                 break;
+		}
+		
+		
+		
+		System.out.println(stDate);
+		periodRankList = historyService.getPeriodRankList(userNo, stDate);
+		
+		jsonob.put("periodRankList", periodRankList);
+		System.out.println("periodRankList:"+periodRankList);
+		
+		return jsonob.toString();		
+
+	}
+	
 
     
   	/** * 날짜로 요일 구하기 * 

@@ -2,12 +2,14 @@ package kr.hongik.history.repository;
 
 import java.util.List;
 
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kr.hongik.friends.model.Friends;
 import kr.hongik.history.model.Hcount;
 import kr.hongik.history.model.History;
+import kr.hongik.history.model.Rank;
 import kr.hongik.history.model.Tcount;
 import kr.hongik.history.model.Wcount;
 import kr.hongik.member.model.Member;
@@ -28,4 +30,5 @@ public interface HistoryMapper {
 	
 	public List<History> getHistoryInfoList(String seq);
 
+    public List<Rank> getPeriodRankList(String userNo, String stDate);
 }

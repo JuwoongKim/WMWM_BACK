@@ -1,6 +1,7 @@
 package kr.hongik.history.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.hongik.friends.model.Friends;
 import kr.hongik.history.model.Hcount;
 import kr.hongik.history.model.History;
+import kr.hongik.history.model.Rank;
 import kr.hongik.history.model.Tcount;
 import kr.hongik.history.model.Wcount;
 import kr.hongik.history.repository.HistoryMapper;
@@ -47,8 +49,10 @@ public class HistoryService {
 	}
 	
 	public List<History> getHistoryInfoList(String seq){
-		return Optional.ofNullable(historyMapper.getHistoryInfoList(seq)).orElseGet(ArrayList::new);
-
-		
+		return Optional.ofNullable(historyMapper.getHistoryInfoList(seq)).orElseGet(ArrayList::new);	
+	}
+	
+	public List<Rank> getPeriodRankList(String userNo, String stDate){
+		return Optional.ofNullable(historyMapper.getPeriodRankList(userNo, stDate)).orElseGet(ArrayList::new);	
 	}
 }

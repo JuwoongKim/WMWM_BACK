@@ -103,4 +103,41 @@
 
 
 	</select>
+
+
+
+
+	<!-- 지인 정보 - 재회 등록2  주웅 1120 추가한것 -->
+	<insert id="insertHistory2" parameterType="history">
+		INSERT INTO HISTORY
+		(
+			 SEQ
+		,	TYPE
+		,	LATITUDE
+		,	LONGITUDE
+		,	REG_DT
+		,	REG_LT
+		)
+		VALUES
+			(
+				 #{seq}
+			,	#{type}
+			,	#{latitude}
+			,	#{longitude}
+			,	DATE_FORMAT(SYSDATE(),'%Y%m%d%H%i%s')
+			,	DATE_FORMAT(SYSDATE(),'%Y%m%d%H%i%s')
+			)
+	</insert>
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>
